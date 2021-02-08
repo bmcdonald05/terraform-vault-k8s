@@ -1,0 +1,11 @@
+gcp_project_id                    = "" # GCP project ID
+gcp_region                        = "us-east1" # GCP region to use
+gcp_zones                         = ["us-east1-b"] # Zones to host the cluster in
+name_prefix                       = "vault-k8s-demo" # Name prefix to easily prepend resources
+network                           = "" # VPC network to place resources in
+subnetwork                        = "" # Subnet to place resources in
+node_pool_machine_type            = "e2-small" # Machine type for deploying nodes to node pool
+gke_num_nodes                     = 3 # Number of nodes to deploy to EACH zone in the region
+compute_engine_service_account    = "" # Name of SA account that will use workload identity for auto-unseal and snapshots
+vault_namespace                   = "" # Name for k8s namespace that will be used for Vault items
+k8s_vault_sa_name                 = "vault-sa"

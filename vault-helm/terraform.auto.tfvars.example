@@ -1,0 +1,6 @@
+gcp_project_id = ""
+gcp_region     = "us-east1"
+
+vault_namespace   = "vault-demo"
+vault_version     = "1.6.2"
+k8s_vault_sa_name = "vault-sa"

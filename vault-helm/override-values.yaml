@@ -1,0 +1,106 @@
+global:
+  enabled: true
+  tlsDisable: true
+injector:
+  # True if you want to enable vault agent injection.
+  enabled: false
+
+#This cluster will be running as the Vault cluster
+server:
+  # Use the Enterprise or OSS Image
+  image:
+    repository: "vault"
+    tag: "${vault_version}"
+
+  # These Resource Limits are in line with node requirements in the
+  # Vault Reference Architecture for a Small Cluster
+  # resources:
+  #   requests:
+  #     memory: 8Gi
+  #     cpu: 2000m
+  #   limits:
+  #     memory: 16Gi
+  #     cpu: 2000m
+
+  # For HA configuration and because we need to manually init the vault,
+  # we need to define custom readiness/liveness Probe settings
+  readinessProbe:
+    enabled: true
+    path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
+  livenessProbe:
+    enabled: true
+    path: "/v1/sys/health?standbyok=true"
+    initialDelaySeconds: 600
+
+  # # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be
+  # # used to include variables required for auto-unseal.
+  # extraEnvironmentVars:
+  #   VAULT_CACERT: /vault/userconfig/tls-ca/ca.crt
+
+  # # extraVolumes is a list of extra volumes to mount. These will be exposed
+  # # to Vault in the path `/vault/userconfig/<name>/`.
+  # extraVolumes:
+  #   - type: secret
+  #     name: tls-server
+  #   - type: secret
+  #     name: tls-ca
+  #   - type: secret
+  #     name: kms-creds
+
+  # This configures the Vault Statefulset to create a PVC for audit logs.
+  # See https://www.vaultproject.io/docs/audit/index.html to know more
+  auditStorage:
+    enabled: true
+
+  standalone:
+    enabled: false
+
+  # Run Vault in "HA" mode.
+  ha:
+    enabled: true
+    replicas: ${num_replicas}
+    raft:
+      enabled: true
+      setNodeId: true
+
+      config: |
+        ui = true
+        listener "tcp" {
+          address = "[::]:8200"
+          cluster_address = "[::]:8201"
+          tls_disable = 1
+        }
+
+        storage "raft" {
+          path = "/vault/data"
+            retry_join {
+            leader_api_addr = "http://vault-0.vault-internal:8200"
+          }
+          retry_join {
+            leader_api_addr = "http://vault-1.vault-internal:8200"
+          }
+          retry_join {
+            leader_api_addr = "http://vault-2.vault-internal:8200"
+          }
+        }
+
+        seal "gcpckms" {
+          project     = "${gcp_project_id}"
+          region      = "${gcp_region}"
+          key_ring    = "${vault_keyring}"
+          crypto_key  = "${vault_unseal_keyname}"
+        }
+
+
+        service_registration "kubernetes" {}
+
+
+  # Definition of the serviceAccount used to run Vault.
+  serviceAccount:
+    # Extra annotations for the serviceAccount definition. This can either be
+    # YAML or a YAML-formatted multi-line templated string map of the
+    # annotations to apply to the serviceAccount.
+    create: true
+    name: "${k8s_vault_sa_name}"
+    annotations:
+      iam.gke.io/gcp-service-account: "${gke_cluster_sa}"
