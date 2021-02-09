@@ -5,6 +5,15 @@ Code repo for demo/sandbox of Vault on Kubernetes via Terraform.
 
 ### Set TF Variables
 - Make a copy of the "terraform.auto.tfvars.example" file and name it "terraform.auto.tfvars"
+- Update all the values in the "terraform.auto.tfvars" file to reflect the necessary information for the environment
+
+### Run Terraform code to provision infrastructure on GCP/GKE
+
+```
+`terrafrom init`
+<br>
+`terraform apply`
+```
 
 
 ## Deploy the Vault Helm chart
@@ -12,8 +21,8 @@ Code repo for demo/sandbox of Vault on Kubernetes via Terraform.
 ### Set TF Variables
 - Make a copy of the "terraform.auto.tfvars.example" file and name it "terraform.auto.tfvars"
 - Update all the values in the "terraform.auto.tfvars" file to reflect the necessary information for the environment
-- For the Vault Enterprise license string, clients should have their license as part of onboarding with HashiCorp.
-- The Vault Consul ACL Token, enter the value you received from the steps above.
+- If you did not use the `vault-gke-cluster` TF code and just want to use the helm chart, make sure to update data and variable calls to use relevant information
+
 
 ### Deploy Vault
 
@@ -94,6 +103,11 @@ again. Future Vault requests will automatically use this token.
 
 ### Viewing the Vault UI
 
+We have not yet created any method to access Vault external to the k8s cluster.
+If you would like to view the Vault UI, you can use port-forwarding.
+
 ```
 $ kubectl port-forward vault-0 8200:8200
 ```
+
+Then simply open your browser of choice and go to `http://127.0.0.1:8200/`
