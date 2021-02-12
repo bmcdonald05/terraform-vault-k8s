@@ -1,0 +1,26 @@
+# template-annotations.yaml
+spec:
+  template:
+    metadata:
+      annotations:
+        vault.hashicorp.com/auth-path: "auth/kubernetes/vault-k8s-demo/"
+        vault.hashicorp.com/role: "k8_demo"
+        vault.hashicorp.com/tls-skip-verify : "true"
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-inject-status: "update"
+        vault.hashicorp.com/agent-inject-secret-secret2: "secret/secret2"
+        vault.hashicorp.com/agent-inject-template-secret2: |
+          {{- with secret "secret/secret2" -}}
+          postgresql://{{ .Data.data.username }}:{{ .Data.data.password }}@postgres:5432/wizard
+          {{- end }}
+
+# # basic-annotations.yaml
+# spec:
+#   template:
+#     metadata:
+#       annotations:
+#         vault.hashicorp.com/auth-path: "auth/kubernetes/vault-k8s-demo/"
+#         vault.hashicorp.com/agent-inject: "true" #configures whether injection is explicitly enabled or disabled for a pod.
+#         vault.hashicorp.com/role: "k8_demo"
+#         vault.hashicorp.com/tls-skip-verify : "true"
+#         vault.hashicorp.com/agent-inject-secret-secret2.txt: "secret/data/hello-world" #stores secrets at default '/vault/secrets' directory in a file 'secret2.txt'

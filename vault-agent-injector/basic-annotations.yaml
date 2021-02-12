@@ -1,0 +1,10 @@
+# basic-annotations.yaml
+spec:
+  template:
+    metadata:
+      annotations:
+        vault.hashicorp.com/auth-path: "auth/kubernetes/vault-k8s-demo/"
+        vault.hashicorp.com/agent-inject: "true" #configures whether injection is explicitly enabled or disabled for a pod.
+        vault.hashicorp.com/role: "k8_demo"
+        vault.hashicorp.com/tls-skip-verify : "true"
+        vault.hashicorp.com/agent-inject-secret-secret.txt: "secret/data/hello-world" #stores secrets at default '/vault/secrets' directory in a file 'secret2.txt'

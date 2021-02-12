@@ -1,0 +1,10 @@
+#GCP specific info
+gcp_project_id = "" # GCP Project ID
+gcp_region     = "" # GCP Region
+
+#K8s specific info
+vault_namespace   = "vault-demo" # Name of namespace in Kubernetes cluster
+k8s_vault_sa_name = "vault-sa" # Name of SA in Kubernetes cluster
+
+#Vault cluster auth specific vars
+vault_cluster_addr = "http://127.0.0.1:8200" Vault cluster endpoint

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault-agent-demo
+  labels:
+    app: vault-agent-demo
+spec:
+  selector:
+    matchLabels:
+      app: vault-agent-demo
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: vault-agent-demo
+    spec:
+      serviceAccountName: vault-auth
+      containers:
+        - name: vault-agent-demo
+          image: jweissig/app:0.0.1
