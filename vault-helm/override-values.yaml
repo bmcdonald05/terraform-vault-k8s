@@ -3,7 +3,16 @@ global:
   tlsDisable: true
 injector:
   # True if you want to enable vault agent injection.
-  enabled: false
+  enabled: true
+    # Use the Vault K8s Image
+
+  # External vault server address for the injector to use. Setting this will
+  # disable deployment of a vault server along with the injector.
+  # externalVaultAddr: ""
+
+  image:
+    repository: 'hashicorp/vault-k8s'
+    tag: 'latest'
 
 #This cluster will be running as the Vault cluster
 server:
