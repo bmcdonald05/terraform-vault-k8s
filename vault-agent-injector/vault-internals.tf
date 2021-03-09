@@ -37,7 +37,9 @@ resource "vault_mount" "kv2" {
 #Enable k8 Auth Method
 module "k8_auth" {
   source     = "./modules/k8_auth"
-  depends_on = [kubernetes_secret.vault_auth_token, vault_mount.kv2]
+  count                = var.bootstrap ? 0 : 1
+  # Does not seem to work anymore
+  # depends_on = [kubernetes_secret.vault_auth_token, vault_mount.kv2]
 
   k8_auth_backend_path = "kubernetes/${data.terraform_remote_state.gke_cluster.outputs.cluster_name}"      #Vault Path for Auth Backend
   k8_endpoint_url      = "https://${data.terraform_remote_state.gke_cluster.outputs.gke_cluster_endpoint}" # K8s endpoint url

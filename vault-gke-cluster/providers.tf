@@ -22,3 +22,12 @@ provider "google-beta" {
   project = var.gcp_project_id
   region  = var.gcp_region
 }
+
+# data "google_client_config" "default" {}
+#
+# provider "kubernetes" {
+#   load_config_file       = false
+#   host                   = "https://${module.gke_vault_demo.endpoint}"
+#   token                  = data.google_client_config.default.access_token
+#   cluster_ca_certificate = base64decode(module.gke_vault_demo.ca_certificate)
+# }

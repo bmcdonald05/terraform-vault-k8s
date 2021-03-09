@@ -172,7 +172,14 @@ Open a port forwarding session in one cmd/terminal window: `kubectl port-forward
 
 Then you can set the 'vault_cluster_addr' in the 'terraform.auto.tfvars' file to be "http://127.0.0.1:8200" for terraform to reach the Vault cluster.
 
-In a seperate cmd/terminal window apply the terraform code.
+In a seperate cmd/terminal window export your Vault root token so Terraform can run.
+
+`export VAULT_TOKEN=s.EXAMPLETOKEN`
+
+Apply the Terraform code.
+  - In the current state we will need to run terraform twice
+  - First make sure that the "bootstrap" variable is set to "true" and run a `terraform apply`
+  - After the initial run, update the "bootstrap" variable to "false" and run another `terraform apply`
 
 `terrafrom init`
 <br>

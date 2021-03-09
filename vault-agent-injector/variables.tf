@@ -27,3 +27,9 @@ variable "vault_cluster_addr" {
   description = "Endpoint to reach the Vault cluster service"
   default     = ""
 }
+
+variable "bootstrap" {
+  type        = bool
+  description = "Boolean value to indicate if this is the first run or not"
+  default     = true
+}

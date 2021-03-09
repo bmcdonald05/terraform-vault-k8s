@@ -5,7 +5,7 @@ resource "google_service_account" "vault_server_sa" {
 }
 
 resource "google_project_iam_custom_role" "vault-custom-role" {
-  role_id     = "vaultCustomRole"
+  role_id     = "vaultCustomKMSRole"
   title       = "My Custom Vault Role"
   description = "Custom Role for Vault to use workload identity"
   permissions = ["cloudkms.cryptoKeyVersions.useToEncrypt", "cloudkms.cryptoKeyVersions.useToDecrypt", "cloudkms.cryptoKeys.get"]

@@ -8,3 +8,6 @@ k8s_vault_sa_name = "vault-sa" # Name of SA in Kubernetes cluster
 
 #Vault cluster auth specific vars
 vault_cluster_addr = "http://127.0.0.1:8200" Vault cluster endpoint
+
+#This is a quick fix to resolve issues setting up k8s auth
+bootstrap = true

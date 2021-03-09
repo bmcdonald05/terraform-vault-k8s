@@ -1,6 +1,6 @@
 module "gke_vault_demo" {
   # source                   = "terraform-google-modules/kubernetes-engine/google//examples/simple_regional_beta"
-  source                 = "terraform-google-modules/kubernetes-engine/google//modules/beta-public-cluster"
+  source                 = "terraform-google-modules/kubernetes-engine/google//modules/beta-public-cluster-update-variant"
   project_id             = var.gcp_project_id
   name                   = var.name_prefix
   regional               = false
